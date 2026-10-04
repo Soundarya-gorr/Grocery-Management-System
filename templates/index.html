@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="hero">
+
+    <h2>Welcome to Grocery Management System</h2>
+
+    <p>
+        Manage products, customers, orders and invoices
+        from one application.
+    </p>
+
+</div>
+
+
+<div class="dashboard">
+
+    <!-- PRODUCT CARD -->
+
+    <div class="card">
+
+        <h3>Products</h3>
+
+        <p>
+            Add, update, delete and search grocery products.
+        </p>
+
+        <a href="/products">
+            Manage Products
+        </a>
+
+    </div>
+
+
+    <!-- CUSTOMER CARD -->
+
+    <div class="card">
+
+        <h3>Customers</h3>
+
+        <p>
+            Manage customer information and order history.
+        </p>
+
+        <a href="/customers">
+            Manage Customers
+        </a>
+
+    </div>
+
+
+    <!-- ORDER CARD -->
+
+    <div class="card">
+
+        <h3>Orders</h3>
+
+        <p>
+            Create orders and view order details.
+        </p>
+
+        <a href="/orders">
+            Manage Orders
+        </a>
+
+    </div>
+
+
+    <!-- INVOICE CARD -->
+
+    <div class="card">
+
+        <h3>Invoice</h3>
+
+        <p>
+            Generate professional customer invoices.
+        </p>
+
+        <a href="/invoice">
+            Generate Invoice
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

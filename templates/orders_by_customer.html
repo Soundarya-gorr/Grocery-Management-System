@@ -1,0 +1,165 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Orders by Customer</h2>
+
+    <p>
+        Select a customer to view their orders.
+    </p>
+
+
+    <div class="form-container">
+
+        <form
+            action="{{ url_for('orders_by_customer') }}"
+            method="GET"
+        >
+
+            <label>
+                Customer
+            </label>
+
+            <select
+                name="customer_id"
+                required
+                style="
+                    width:100%;
+                    padding:11px;
+                    border:1px solid #ccc;
+                    border-radius:5px;
+                    font-size:15px;
+                "
+            >
+
+                <option value="">
+                    Select Customer
+                </option>
+
+                {% for customer in customers %}
+
+                <option
+                    value="{{ customer[0] }}"
+                    {% if selected_customer|string == customer[0]|string %}
+                    selected
+                    {% endif %}
+                >
+                    {{ customer[0] }} -
+                    {{ customer[1] }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    View Orders
+                </button>
+
+                <a
+                    href="{{ url_for('orders') }}"
+                    class="cancel-button"
+                >
+                    Back
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    {% if customer_name %}
+
+    <br>
+
+    <div class="table-container">
+
+        <h3 style="margin-bottom:15px;">
+            Orders for {{ customer_name }}
+        </h3>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Total</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for order in orders %}
+
+                <tr>
+
+                    <td>{{ order[0] }}</td>
+
+                    <td>{{ order[1] }}</td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(order[2]) }}
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{{ url_for(
+                                'order_details',
+                                order_id=order[0]
+                            ) }}"
+                            class="edit-button"
+                        >
+                            Details
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="4"
+                        class="no-data"
+                    >
+                        No orders found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+```

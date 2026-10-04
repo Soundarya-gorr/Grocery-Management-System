@@ -1,0 +1,178 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Order Management</h2>
+
+    <p>
+        Create, search and manage customer orders.
+    </p>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="message {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="action-bar">
+
+        <a
+            href="{{ url_for('add_order') }}"
+            class="button add-button"
+        >
+            + Create Order
+        </a>
+
+
+        <form
+            action="{{ url_for('orders') }}"
+            method="GET"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search Order ID or Customer..."
+                value="{{ search }}"
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+
+        <a
+            href="{{ url_for('orders_by_customer') }}"
+            class="button"
+            style="background-color:#8e44ad;"
+        >
+            Customer Orders
+        </a>
+
+
+        <a
+            href="{{ url_for('sales_report') }}"
+            class="button"
+            style="background-color:#16a085;"
+        >
+            Sales Report
+        </a>
+
+
+        <a
+            href="{{ url_for('orders') }}"
+            class="button reset-button"
+        >
+            Reset
+        </a>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer ID</th>
+                    <th>Customer</th>
+                    <th>Order Date</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for order in orders %}
+
+                <tr>
+
+                    <td>{{ order[0] }}</td>
+
+                    <td>{{ order[1] }}</td>
+
+                    <td>{{ order[2] }}</td>
+
+                    <td>{{ order[3] }}</td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(order[4]) }}
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{{ url_for(
+                                'order_details',
+                                order_id=order[0]
+                            ) }}"
+                            class="edit-button"
+                        >
+                            Details
+                        </a>
+
+
+                        <a
+                            href="{{ url_for(
+                                'order_items',
+                                order_id=order[0]
+                            ) }}"
+                            class="button"
+                            style="background-color:#8e44ad;"
+                        >
+                            Items
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="no-data"
+                    >
+                        No orders found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

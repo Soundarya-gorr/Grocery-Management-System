@@ -1,0 +1,87 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Customer Order History</h2>
+
+    <p>
+        Order history for:
+        <strong>{{ customer_name }}</strong>
+    </p>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Total Amount</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for order in orders %}
+
+                <tr>
+
+                    <td>
+                        {{ order[1] }}
+                    </td>
+
+                    <td>
+                        {{ order[2] }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(order[3]) }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="3"
+                        class="no-data"
+                    >
+                        No orders found for this customer.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <br>
+
+    <a
+        href="{{ url_for('customers') }}"
+        class="cancel-button"
+    >
+        Back to Customers
+    </a>
+
+</div>
+
+{% endblock %}
+```

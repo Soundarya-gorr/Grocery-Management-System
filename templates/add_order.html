@@ -1,0 +1,82 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Create New Order</h2>
+
+    <form
+        action="{{ url_for('add_order') }}"
+        method="POST"
+    >
+
+        <label>
+            Order ID
+        </label>
+
+        <input
+            type="number"
+            name="order_id"
+            required
+        >
+
+
+        <label>
+            Customer
+        </label>
+
+        <select
+            name="customer_id"
+            required
+            style="
+                width:100%;
+                padding:11px;
+                border:1px solid #ccc;
+                border-radius:5px;
+                font-size:15px;
+            "
+        >
+
+            <option value="">
+                Select Customer
+            </option>
+
+            {% for customer in customers %}
+
+            <option value="{{ customer[0] }}">
+                {{ customer[0] }} -
+                {{ customer[1] }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <div class="form-buttons">
+
+            <button
+                type="submit"
+                class="save-button"
+            >
+                Create Order
+            </button>
+
+
+            <a
+                href="{{ url_for('orders') }}"
+                class="cancel-button"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+```

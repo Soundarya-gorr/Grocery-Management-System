@@ -1,0 +1,204 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Customer Management</h2>
+
+    <p>
+        Manage customer information, orders and spending.
+    </p>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="message {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="action-bar">
+
+        <a
+            href="{{ url_for('add_customer') }}"
+            class="button add-button"
+        >
+            + Add Customer
+        </a>
+
+
+        <form
+            action="{{ url_for('customers') }}"
+            method="GET"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search customer..."
+                value="{{ search }}"
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+
+        <a
+            href="{{ url_for('customers') }}"
+            class="button reset-button"
+        >
+            Reset
+        </a>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for customer in customers %}
+
+                <tr>
+
+                    <td>
+                        {{ customer[0] }}
+                    </td>
+
+                    <td>
+                        {{ customer[1] }}
+                    </td>
+
+                    <td>
+                        {{ customer[2] }}
+                    </td>
+
+                    <td>
+                        {{ customer[3] }}
+                    </td>
+
+                    <td>
+                        {{ customer[4] }}
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{{ url_for(
+                                'update_customer',
+                                customer_id=customer[0]
+                            ) }}"
+                            class="edit-button"
+                        >
+                            Edit
+                        </a>
+
+
+                        <a
+                            href="{{ url_for(
+                                'customer_orders',
+                                customer_id=customer[0]
+                            ) }}"
+                            class="button"
+                            style="background-color:#8e44ad;"
+                        >
+                            Orders
+                        </a>
+
+
+                        <a
+                            href="{{ url_for(
+                                'customer_spending',
+                                customer_id=customer[0]
+                            ) }}"
+                            class="button"
+                            style="background-color:#16a085;"
+                        >
+                            Spending
+                        </a>
+
+
+                        <form
+                            action="{{ url_for(
+                                'delete_customer',
+                                customer_id=customer[0]
+                            ) }}"
+                            method="POST"
+                            class="delete-form"
+                            onsubmit="return confirm(
+                                'Are you sure you want to delete this customer?'
+                            );"
+                        >
+
+                            <button
+                                type="submit"
+                                class="delete-button"
+                            >
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="no-data"
+                    >
+                        No customers found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

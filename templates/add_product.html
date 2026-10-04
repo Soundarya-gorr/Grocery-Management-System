@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Add Product</h2>
+
+    <form
+        action="{{ url_for('add_product') }}"
+        method="POST"
+    >
+
+        <label>Product ID</label>
+
+        <input
+            type="number"
+            name="product_id"
+            required
+        >
+
+
+        <label>Product Name</label>
+
+        <input
+            type="text"
+            name="product_name"
+            required
+        >
+
+
+        <label>Category</label>
+
+        <input
+            type="text"
+            name="category"
+            required
+        >
+
+
+        <label>Price</label>
+
+        <input
+            type="number"
+            name="price"
+            step="0.01"
+            min="0"
+            required
+        >
+
+
+        <label>Quantity</label>
+
+        <input
+            type="number"
+            name="quantity"
+            min="0"
+            required
+        >
+
+
+        <div class="form-buttons">
+
+            <button
+                type="submit"
+                class="save-button"
+            >
+                Add Product
+            </button>
+
+            <a
+                href="{{ url_for('products') }}"
+                class="cancel-button"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Order Items</h2>
+
+    <p>
+        Add products to Order #{{ order_id }}
+    </p>
+
+
+    <!-- ==========================================
+         ADD PRODUCT TO ORDER
+    =========================================== -->
+
+    <div class="form-container">
+
+        <h2>Add Product to Order</h2>
+
+        <form method="POST">
+
+            <label for="product_id">
+                Select Product
+            </label>
+
+            <select
+                name="product_id"
+                id="product_id"
+                required
+            >
+
+                <option value="">
+                    -- Select Product --
+                </option>
+
+                {% for product in products %}
+
+                <option value="{{ product[0] }}">
+
+                    {{ product[1] }}
+                    -
+                    ₹{{ "%.2f"|format(product[2]) }}
+                    -
+                    Stock: {{ product[3] }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <label for="quantity">
+                Quantity
+            </label>
+
+            <input
+                type="number"
+                name="quantity"
+                id="quantity"
+                min="1"
+                required
+            >
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    Add Item
+                </button>
+
+                <a
+                    href="{{ url_for('order_details', order_id=order_id) }}"
+                    class="cancel-button"
+                >
+                    Back to Order
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- ==========================================
+         CURRENT ORDER ITEMS
+    =========================================== -->
+
+    <br>
+
+    <h2>Current Order Items</h2>
+
+
+    {% if items %}
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Item ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in items %}
+
+                <tr>
+
+                    <td>
+                        {{ item[0] }}
+                    </td>
+
+                    <td>
+                        {{ item[1] }}
+                    </td>
+
+                    <td>
+                        {{ item[2] }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(item[3]) }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(item[4]) }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ==========================================
+         ORDER TOTAL
+    =========================================== -->
+
+    <div class="invoice-total">
+
+        <div>
+
+            <h3>
+                Order Total
+            </h3>
+
+        </div>
+
+
+        <div>
+
+            <h2>
+                ₹{{ "%.2f"|format(total) }}
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    {% else %}
+
+    <div class="no-data">
+
+        <p>
+            No items have been added to this order yet.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- ==========================================
+         ACTION BUTTONS
+    =========================================== -->
+
+    <div class="invoice-actions">
+
+        <a
+            href="{{ url_for('order_details', order_id=order_id) }}"
+            class="button reset-button"
+        >
+            View Order
+        </a>
+
+
+        <a
+            href="{{ url_for('invoice') }}"
+            class="button add-button"
+        >
+            Generate Invoice
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

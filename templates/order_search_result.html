@@ -1,0 +1,71 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Order Search Result</h2>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <tr>
+                <th>Order ID</th>
+                <td>{{ order[0] }}</td>
+            </tr>
+
+            <tr>
+                <th>Customer ID</th>
+                <td>{{ order[1] }}</td>
+            </tr>
+
+            <tr>
+                <th>Customer Name</th>
+                <td>{{ order[2] }}</td>
+            </tr>
+
+            <tr>
+                <th>Order Date</th>
+                <td>{{ order[3] }}</td>
+            </tr>
+
+            <tr>
+                <th>Total Amount</th>
+                <td>
+                    ₹{{ "%.2f"|format(order[4]) }}
+                </td>
+            </tr>
+
+        </table>
+
+
+        <br>
+
+
+        <a
+            href="{{ url_for(
+                'order_details',
+                order_id=order[0]
+            ) }}"
+            class="button add-button"
+        >
+            View Full Details
+        </a>
+
+
+        <a
+            href="{{ url_for('orders') }}"
+            class="cancel-button"
+        >
+            Back
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

@@ -1,0 +1,102 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h2>Update Customer</h2>
+
+    <form
+        action="{{ url_for(
+            'update_customer',
+            customer_id=customer[0]
+        ) }}"
+        method="POST"
+    >
+
+        <label>
+            Customer ID
+        </label>
+
+        <input
+            type="text"
+            value="{{ customer[0] }}"
+            disabled
+        >
+
+
+        <label>
+            Customer Name
+        </label>
+
+        <input
+            type="text"
+            name="customer_name"
+            value="{{ customer[1] }}"
+            required
+        >
+
+
+        <label>
+            Phone
+        </label>
+
+        <input
+            type="text"
+            name="phone"
+            value="{{ customer[2] }}"
+            maxlength="15"
+            required
+        >
+
+
+        <label>
+            Email
+        </label>
+
+        <input
+            type="email"
+            name="email"
+            value="{{ customer[3] }}"
+            required
+        >
+
+
+        <label>
+            Address
+        </label>
+
+        <input
+            type="text"
+            name="address"
+            value="{{ customer[4] }}"
+            required
+        >
+
+
+        <div class="form-buttons">
+
+            <button
+                type="submit"
+                class="save-button"
+            >
+                Update Customer
+            </button>
+
+
+            <a
+                href="{{ url_for('customers') }}"
+                class="cancel-button"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+```

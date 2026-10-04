@@ -1,0 +1,177 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Order Details</h2>
+
+
+    <div class="table-container">
+
+        <h3>
+            Order #{{ order[0] }}
+        </h3>
+
+        <br>
+
+        <p>
+            <strong>Order Date:</strong>
+            {{ order[1] }}
+        </p>
+
+        <p>
+            <strong>Customer ID:</strong>
+            {{ order[2] }}
+        </p>
+
+        <p>
+            <strong>Customer:</strong>
+            {{ order[3] }}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ order[4] }}
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            {{ order[5] }}
+        </p>
+
+        <p>
+            <strong>Address:</strong>
+            {{ order[6] }}
+        </p>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="table-container">
+
+        <h3 style="margin-bottom:15px;">
+            Ordered Products
+        </h3>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Item ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in items %}
+
+                <tr>
+
+                    <td>{{ item[0] }}</td>
+
+                    <td>{{ item[1] }}</td>
+
+                    <td>{{ item[2] }}</td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(item[3]) }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(item[4]) }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="5"
+                        class="no-data"
+                    >
+                        No items found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+
+        <h2
+            style="
+                text-align:right;
+                margin-top:20px;
+            "
+        >
+            Grand Total:
+            ₹{{ "%.2f"|format(total) }}
+        </h2>
+
+
+        <div class="form-buttons">
+
+            <a
+                href="{{ url_for(
+                    'order_items',
+                    order_id=order[0]
+                ) }}"
+                class="button add-button"
+            >
+                Add Items
+            </a>
+
+
+            <form
+                action="{{ url_for(
+                    'calculate_order_total',
+                    order_id=order[0]
+                ) }}"
+                method="POST"
+            >
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    Update Order Total
+                </button>
+
+            </form>
+
+
+            <a
+                href="{{ url_for('orders') }}"
+                class="cancel-button"
+            >
+                Back
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

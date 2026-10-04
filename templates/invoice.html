@@ -1,0 +1,378 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    {% if not invoice %}
+
+    <!-- ==========================================
+         INVOICE SEARCH
+    =========================================== -->
+
+    <div class="form-container">
+
+        <h2>Generate Invoice</h2>
+
+        <p style="margin-bottom:25px;">
+            Enter an Order ID to generate the customer invoice.
+        </p>
+
+
+        {% with messages = get_flashed_messages(
+            with_categories=true
+        ) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <form
+            action="{{ url_for('invoice') }}"
+            method="POST"
+        >
+
+            <label>
+                Order ID
+            </label>
+
+            <input
+                type="number"
+                name="order_id"
+                placeholder="Enter Order ID"
+                required
+            >
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    Generate Invoice
+                </button>
+
+
+                <a
+                    href="{{ url_for('home') }}"
+                    class="cancel-button"
+                >
+                    Back
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- ==========================================
+         PROFESSIONAL INVOICE
+    =========================================== -->
+
+    <div class="invoice-container" id="invoice">
+
+
+        <!-- ======================================
+             INVOICE HEADER
+        ======================================= -->
+
+        <div class="invoice-header">
+
+            <div>
+
+                <h1>
+                    GROCERY STORE
+                </h1>
+
+                <p>
+                    CUSTOMER INVOICE
+                </p>
+
+            </div>
+
+
+            <div class="invoice-number">
+
+                <strong>
+                    Invoice / Order
+                </strong>
+
+                <h2>
+                    #{{ invoice[0] }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- ======================================
+             CUSTOMER + INVOICE INFORMATION
+        ======================================= -->
+
+        <div class="invoice-info">
+
+            <div>
+
+                <h3>
+                    Bill To
+                </h3>
+
+                <p>
+                    <strong>
+                        {{ invoice[3] }}
+                    </strong>
+                </p>
+
+                <p>
+                    Customer ID:
+                    {{ invoice[2] }}
+                </p>
+
+                <p>
+                    Phone:
+                    {{ invoice[4] }}
+                </p>
+
+                <p>
+                    Email:
+                    {{ invoice[5] }}
+                </p>
+
+                <p>
+                    Address:
+                    {{ invoice[6] }}
+                </p>
+
+            </div>
+
+
+            <div class="invoice-date">
+
+                <h3>
+                    Invoice Details
+                </h3>
+
+                <p>
+                    <strong>
+                        Order ID:
+                    </strong>
+
+                    {{ invoice[0] }}
+                </p>
+
+                <p>
+                    <strong>
+                        Order Date:
+                    </strong>
+
+                    {{ invoice[1] }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ======================================
+             ITEMS TABLE
+        ======================================= -->
+
+        <div class="invoice-table-container">
+
+            <table class="invoice-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            No.
+                        </th>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in items %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            {{ item[1] }}
+                        </td>
+
+                        <td>
+                            {{ item[2] }}
+                        </td>
+
+                        <td>
+                            ₹{{ "%.2f"|format(item[3]) }}
+                        </td>
+
+                        <td>
+                            ₹{{ "%.2f"|format(item[4]) }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="no-data"
+                        >
+                            No items found for this order.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- ======================================
+             TOTAL
+        ======================================= -->
+
+        <div class="invoice-total">
+
+            <div>
+
+                <p>
+                    Total Items:
+                    {{ items|length }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p>
+                    Subtotal:
+                    ₹{{ "%.2f"|format(total) }}
+                </p>
+
+                <h2>
+                    Grand Total:
+                    ₹{{ "%.2f"|format(total) }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- ======================================
+             FOOTER
+        ======================================= -->
+
+        <div class="invoice-footer">
+
+            <h3>
+                Thank You!
+            </h3>
+
+            <p>
+                Thank you for shopping with us.
+            </p>
+
+            <p>
+                Please visit again.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==========================================
+         INVOICE ACTION BUTTONS
+    =========================================== -->
+
+    <div class="invoice-actions">
+
+        <button
+            onclick="window.print()"
+            class="save-button"
+        >
+            🖨 Print Invoice
+        </button>
+
+
+        <a
+            href="{{ url_for('invoice') }}"
+            class="cancel-button"
+        >
+            Generate Another
+        </a>
+
+
+        <a
+            href="{{ url_for('home') }}"
+            class="cancel-button"
+        >
+            Home
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+```
